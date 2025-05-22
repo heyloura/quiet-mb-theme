@@ -2,17 +2,29 @@
 <div class="h-feed" role="main">      
     {{ $list := (where .Site.Pages "Type" "post") }}
     {{ range $list }}
-    <div class="h-entry">
+    <dl class="h-entry">
         {{ if .Title }}
-            <h1 class="p-name">{{ .Title }}</h1> 
+            <dt class="p-name">{{ .Title }}</dt> 
+            <dd>
+                <a href="{{ .Permalink }}" class="u-url">
+                    <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                        {{ .Date.Format "02 Jan 2006" }}
+                    </time>
+                </a>   
+            </dd>
+        {{ else }}
+            <dt>
+                <a href="{{ .Permalink }}" class="u-url">
+                    <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                        {{ .Date.Format "02 Jan 2006" }}
+                    </time>
+                </a>   
+            </dt>
         {{ end }}
-        <a href="{{ .Permalink }}" class="u-url">
-            <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                {{ .Date.Format "02 Jan 2006" }}
-            </time>
-        </a>     
-        <p class="p-summary">{{ .Summary | truncate 100 }}</p>
-    </div>
+        <dd class="e-content">
+            {{ .Content }}
+        </dd>
+    </dl>
     {{ end }}
 </div>
 {{ end }}
