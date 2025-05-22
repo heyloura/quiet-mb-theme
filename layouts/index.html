@@ -4,13 +4,15 @@
     {{ range $list }}
     <dl class="h-entry">
         {{ if .Title }}
-            <dt class="p-name">{{ .Title }}</dt> 
-            <dd>
+            <dt class="p-name">
                 <a href="{{ .Permalink }}" class="u-url">
-                    <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                        {{ .Date.Format "02 Jan 2006" }}
-                    </time>
+                    {{ .Title }}
                 </a>   
+            </dt> 
+            <dd>
+                <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                    {{ .Date.Format "02 Jan 2006" }}
+                </time>
             </dd>
         {{ else }}
             <dt>
