@@ -27,6 +27,11 @@
         <dd class="e-content">
             {{ .Content }}
         </dd>
+        {{ if .Title }}
+            <dd>
+                <a href="{{ .Permalink }}">Read More →</a>
+            </dd>
+        {{ end }}
     </dl>
     {{ end }}
     {{- if or ($paginator.HasNext) ($paginator.HasPrev) }}
