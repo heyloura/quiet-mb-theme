@@ -11,10 +11,22 @@
                 </a>   
             </dt> 
             <dd>
-                <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                Published: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
                     {{ .Date.Format "02 Jan 2006" }}
                 </time>
+            </dd> 
+            {{ if gt (len .Content) 600 }}
+            <dd class="p-summary">
+                {{ .Content | safeHTML | strings.Truncate 600 }}...
+            </dd> 
+            <dd>
+                <a href="{{ .Permalink }}">Read More →</a>
             </dd>
+            {{ else }}
+            <dd class="e-content">
+                {{ .Content }}
+            </dd>            
+            {{ end }}
         {{ else }}
             <dt>
                 <a href="{{ .Permalink }}" class="u-url">
@@ -23,13 +35,8 @@
                     </time>
                 </a>   
             </dt>
-        {{ end }}
-        <dd class="e-content">
+            <dd class="e-content">
             {{ .Content }}
-        </dd>
-        {{ if .Title }}
-            <dd>
-                <a href="{{ .Permalink }}">Read More →</a>
             </dd>
         {{ end }}
         {{- if compare.Gt .Lastmod .Date -}}
