@@ -41,7 +41,7 @@
         {{ end }}
         {{- if compare.Gt .Lastmod .Date -}}
         <dd>
-            Updated: <time class="dt-modified" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
+            Updated: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
                 {{  .Lastmod.Format "02 Jan 2006" }}
             </time>
         </dd>
