@@ -17,7 +17,7 @@
             </dd> 
             {{ if gt (len .Content) 600 }}
             <dd class="p-summary">
-                {{ .Content | safeHTML | strings.Truncate 600 }}...
+                {{ .Content | safeHTML | strings.Truncate 600 }}
             </dd> 
             <dd>
                 <a href="{{ .Permalink }}">Read More →</a>
