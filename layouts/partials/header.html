@@ -9,6 +9,7 @@
     <p>{{ .Site.Params.itunes_description | safeHTML }}</p>
 </div>
 <hr/>
+<h2>Pages</h2>
 <ul>
     {{ range .Site.Menus.main }}
     {{ if .Page.Params.redirect_url }}
@@ -26,3 +27,4 @@
     {{ end }}
     {{ end }}
 </ul>
+<hr/>
