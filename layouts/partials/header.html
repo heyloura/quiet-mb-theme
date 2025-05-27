@@ -1,13 +1,11 @@
 <div class="h-card">
-    <a href="/">
-        <img loading="lazy" 
-            src="{{ .Site.Author.avatar }}" 
-            alt="{{ .Site.Title }} Profile Photo" 
-            class="u-photo" 
-            width="80" 
-            height="80">
-    </a>
     <h1><a class="p-name u-url" href="/">{{ .Site.Title }}</a></h1>
+    <img loading="lazy" 
+        src="{{ .Site.Author.avatar }}" 
+        alt="{{ .Site.Title }} Profile Photo" 
+        class="u-photo" 
+        width="80" 
+        height="80">
     <p>{{ .Site.Params.itunes_description | safeHTML }}</p>
 </div>
 <hr/>
