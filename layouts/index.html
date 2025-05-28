@@ -83,8 +83,8 @@
         {{ else if eq (lower .Title) "change log" }}
         {{ else if strings.Contains (lower .Title) "tags-" }}
         {{ else }}
-            <p><a href="{{ .Permalink }}">&#128279;</a><b>{{ strings.FirstUpper .Title }}</b></p>
-            <ul role="list">
+            <p><a href="{{ .Permalink }}">&#128279;</a> <b>{{ strings.FirstUpper .Title }}</b></p>
+            <ol role="list">
             {{ $category := .Title }}
             {{ if eq $category "Side Projects" }}
                 <li class="h-entry">
@@ -104,7 +104,7 @@
                 {{- end}}
                 {{- end}}
             {{end}}
-            </ul>
+            </ol>
             {{- end }}
         {{ end }}
 
