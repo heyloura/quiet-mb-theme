@@ -42,11 +42,11 @@
     {{ end }}
     {{ $list := ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
     <ul>
-        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">&#8804;</a></li>{{ end }}
-        {{ range $list }}
-			<li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-		{{ end }}
-        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">&#8805;</a></li>{{ end }}
+        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">&#8804; Next</a></li>{{ end }}
+        <li><a href="/archive">Archive</a></li>
+        <li><a href="/search-space">Search</a></li>
+        <li><a href="/surprise-me">Surprise</a></li>
+        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">&#8805; Previous</a></li>{{ end }}
     </ul>
 </div>
 {{ end }}
