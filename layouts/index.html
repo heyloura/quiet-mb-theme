@@ -10,23 +10,6 @@
                     {{ .Title }}
                 </a>   
             </dt> 
-            <dd>
-                Published: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                    {{ .Date.Format "02 Jan 2006" }}
-                </time>
-            </dd> 
-            {{ if gt (len .Content) 600 }}
-            <dd class="p-summary">
-                {{ .Content | safeHTML | strings.Truncate 600 }}
-            </dd> 
-            <dd>
-                <a href="{{ .Permalink }}">Read More →</a>
-            </dd>
-            {{ else }}
-            <dd class="e-content">
-                {{ .Content }}
-            </dd>            
-            {{ end }}
         {{ else }}
             <dt>
                 <a href="{{ .Permalink }}" class="u-url">
@@ -35,24 +18,35 @@
                     </time>
                 </a>   
             </dt>
-            <dd class="e-content">
-            {{ .Content }}
-            </dd>
         {{ end }}
+            <dd>
+                Published: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                    {{ .Date.Format "02 Jan 2006" }}
+                </time>
+            </dd> 
+            <dd class="e-content">
+                {{ .Content }}
+            </dd>
         {{- if compare.Gt .Lastmod .Date -}}
-        <dd>
-            Updated: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
-                {{  .Lastmod.Format "02 Jan 2006" }}
-            </time>
-        </dd>
+            <dd>
+                Updated: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
+                    {{  .Lastmod.Format "02 Jan 2006" }}
+                </time>
+            </dd>
         {{- end -}}
+            <dd>
+                {{ range .Params.categories }} {{ . | urlize | lower }}{{ end }}
+            </dd>
     </dl>
+    <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
     {{ end }}
-    {{- if or ($paginator.HasNext) ($paginator.HasPrev) }}
+    {{ $list := ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
     <ul>
-        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">← View older</a></li>{{ end }}
-        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">View newer →</a></li>{{ end }}
+        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">&#8804;</a></li>{{ end }}
+        {{ range $list }}
+			<li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+		{{ end }}
+        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">&#8805;</a></li>{{ end }}
     </ul>
-    {{- end }}
 </div>
 {{ end }}

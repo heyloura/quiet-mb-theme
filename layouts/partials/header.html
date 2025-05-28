@@ -8,7 +8,6 @@
         height="80">
     <p>{{ .Site.Params.itunes_description | safeHTML }}</p>
 </div>
-<hr/>
 <ul>
     {{ range .Site.Menus.main }}
     {{ if .Page.Params.redirect_url }}
@@ -26,4 +25,3 @@
     {{ end }}
     {{ end }}
 </ul>
-<hr/>
