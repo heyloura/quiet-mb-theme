@@ -8,57 +8,28 @@
     {{ else if eq (lower .Title) "change log" }}
     {{ else if strings.Contains (lower .Title) "tags-" }}
     {{ else }}
-        {{ $slice := slice "🍅" "🌻" "🫑" "🪻" "🌷" "🌼" "🌺" "🌹" "🪷" "🥕" "🫛" "🍄" "🥝" "🍉" "🍇" "🍊" "🌽" "🥑" "🥬" "🥦" "🫚" }}
-        {{ $shuffled := shuffle $slice }}
-        {{ $random := index $shuffled 0 }}
-        <ol role="list">
-            <li>
-                <a href="{{ .Permalink }}">
-                    <span class="title">{{ strings.FirstUpper .Title }}<span class="leaders" aria-hidden="true"></span></span>
-                    <span data-href="{{ .Permalink }}" class="page">🌱🪴{{$random}}</span>
-                </a>
-                <ol role="list" style="padding-left: 2ch;">
-                    {{ $category := .Title }}
-                    {{ if eq $category "Side Projects" }}
-                    <li class="h-entry">
-                        <a class="p-url" href="https://heyloura.com/categories/lillihub/">
-                            <span class="p-name title">Lillihub 🐸<span class="leaders" aria-hidden="true"></span></span>
-                            <span class="page">
-                            </span>
-                        </a>
-                    </li>
-                    {{ else if eq $category "Micro.blog" }}
-
-                    {{ end }}
-                        {{ range .Site.Pages }}
-                            {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) (lower $category))}}
-                            <!--<li class="frame border-frame">
-                                {{ .Content }}
-                            </li>-->
-                            {{- end}}
-                        {{ end }}
-                        {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
-                            {{ if and (in .Params.categories $category) }}
-                            {{ if .Title }}
-                            <li class="h-entry">
-                                <a class="p-url" href="{{ if .Page.Params.redirect_url }}{{ .Page.Params.redirect_url }}{{ else }}{{ .Permalink }}{{ end }}">
-                                    <span class="p-name title">{{ .Title }}<span class="leaders" aria-hidden="true"></span></span>
-                                    <span class="page">
-                                        {{- if .Page.Params.Lastmod }}
-                                        <time class="dt-updated" datetime="{{ .Page.Params.Lastmod.Format "2006-01-02 15:04:05 -0700" }}">
-                                            {{ .Page.Params.Lastmod.Format "2 Jan 06" }}
-                                        </time>
-                                        {{- end}}
-                                    </span>
-                                </a>
-                            </li>
-                            {{- end}}
-                            {{- end}}
-                        {{end}}
-                    </ol>
+        <p><b>{{ strings.FirstUpper .Title }}</b><a href="{{ .Permalink }}">&#128279;</a></p>
+        <ul role="list">
+        {{ $category := .Title }}
+        {{ if eq $category "Side Projects" }}
+            <li class="h-entry">
+                <a class="p-url p-name" href="https://heyloura.com/categories/lillihub/">Lillihub 🐸</a>
             </li>
-        </ol>
+        {{ else if eq $category "Micro.blog" }}
 
+        {{ end }}
+        {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
+            {{ if and (in .Params.categories $category) }}
+            {{ if .Title }}
+            <li class="h-entry">
+                <a class="p-url p-name" href="{{ if .Page.Params.redirect_url }}{{ .Page.Params.redirect_url }}{{ else }}{{ .Permalink }}{{ end }}">
+                    {{ .Title }}
+                </a>
+            </li>
+            {{- end}}
+            {{- end}}
+        {{end}}
+        </ul>
         {{- end }} <!-- END the if for category title check-->
     {{ end }}
 
