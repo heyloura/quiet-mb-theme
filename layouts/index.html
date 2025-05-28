@@ -20,7 +20,7 @@
             </dt>
         {{ end }}
             <dd>
-                Published: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                <b>Published</b>: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
                     {{ .Date.Format "02 Jan 2006" }}
                 </time>
             </dd> 
@@ -29,24 +29,27 @@
             </dd>
         {{- if compare.Gt .Lastmod .Date -}}
             <dd>
-                Updated: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
+                <b>Updated</b>: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
                     {{  .Lastmod.Format "02 Jan 2006" }}
                 </time>
             </dd>
         {{- end -}}
+        {{ if gt (len range .Params.categories) 0 }}
             <dd>
-                {{ range .Params.categories }} {{ . | urlize | lower }}{{ end }}
+                <b>Filed under</b>:
+                <ul>{{ range .Params.categories }} <li><a class="p-category" href="/categories/{{ . | anchorize }}">{{ . | safeHTML }}</a></li> {{ end }}</ul>
             </dd>
+        {{ end }}
     </dl>
     <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
     {{ end }}
     {{ $list := ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
     <ul>
-        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">&#8804; Next</a></li>{{ end }}
+        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">&#8804; Previous</a></li>{{ end }}
         <li><a href="/archive">Archive</a></li>
         <li><a href="/search-space">Search</a></li>
         <li><a href="/surprise-me">Surprise</a></li>
-        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">&#8805; Previous</a></li>{{ end }}
+        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">Next &#8805;</a></li>{{ end }}
     </ul>
 </div>
 {{ end }}
