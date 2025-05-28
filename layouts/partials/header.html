@@ -8,9 +8,8 @@
         height="40">
         <a class="p-name u-url" href="/">{{ .Site.Title }}</a>, a level {{ len ((where .Site.Pages "Type" "post").GroupByDate "2006" )}} webmaster
     </h1>
-    <!--<p>{{ .Site.Params.itunes_description | safeHTML }}</p>-->
 </div>
-<ul>
+<ul role="navigation">
     {{ range .Site.Menus.main }}
     {{ if .Page.Params.redirect_url }}
     <li>

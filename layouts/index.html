@@ -1,9 +1,8 @@
 {{ define "main" }}
-<div class="h-feed" role="main">      
     {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
     {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 1) }}
     {{- range $paginator.Pages  }}
-    <dl class="h-entry">
+    <dl class="h-entry" role="main">
         {{ if .Title }}
             <dt class="p-name">
                 <a href="{{ .Permalink }}" class="u-url">
@@ -71,13 +70,4 @@
     </dl>
     <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
     {{ end }}
-    {{ $list := ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
-    <ul>
-        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">&#8804; Previous</a></li>{{ end }}
-        <li><a href="/archive">Archive</a></li>
-        <li><a href="/search-space">Search</a></li>
-        <li><a href="/surprise-me">Surprise</a></li>
-        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">Next &#8805;</a></li>{{ end }}
-    </ul>
-</div>
 {{ end }}
