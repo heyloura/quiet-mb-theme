@@ -37,8 +37,35 @@
         {{ if .Params.categories }}
             <dd>
                 <b>Filed under</b>:
-                {{ $href := print (absURL "categories/") (urlize (replace . "tags-" "")) }}
-                <ul>{{ range .Params.categories }} <li><a class="p-category" href="{{ $href }}">{{ . | safeHTML }}</a></li> {{ end }}</ul>
+                <ul>
+                    {{ range .Params.categories }} 
+                    {{ $href := print (absURL "categories/") (urlize (replace . "tags-" "")) }}
+                    <li><a class="p-category" href="{{ $href }}">{{ . | safeHTML }}</a></li> 
+                    {{ end }}
+                </ul>
+            </dd>
+        {{ end }}
+
+        {{ $permalinkurl := urls.Parse .Permalink }}
+        {{ $relpermalink := .RelPermalink }}
+        {{ $backlinks := slice }}
+        {{- range .Site.Pages -}}
+            {{- if strings.Contains .Content $relpermalink -}}
+                {{ $backlinks = $backlinks | append . }}
+            {{- end -}}
+        {{- end -}}
+        {{ with $backlinks }}
+            <dd>
+                <b>Backlinks</b>:
+                <ul>
+                {{ range $pages }}
+                    {{ if .Title }}
+                        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                    {{- else}}
+                        <li><a href="{{ .Permalink }}">{{ .Summary | truncate 150 }}</a></li>
+                    {{- end}}
+                {{end}}
+                </ul>
             </dd>
         {{ end }}
     </dl>
