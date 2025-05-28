@@ -34,10 +34,11 @@
                 </time>
             </dd>
         {{- end -}}
-        {{ if gt (len range .Params.categories) 0 }}
+        {{ if .Params.categories }}
             <dd>
                 <b>Filed under</b>:
-                <ul>{{ range .Params.categories }} <li><a class="p-category" href="/categories/{{ . | anchorize }}">{{ . | safeHTML }}</a></li> {{ end }}</ul>
+                {{ $href := print (absURL "categories/") (urlize (replace . "tags-" "")) }}
+                <ul>{{ range .Params.categories }} <li><a class="p-category" href="{{ $href }}">{{ . | safeHTML }}</a></li> {{ end }}</ul>
             </dd>
         {{ end }}
     </dl>
