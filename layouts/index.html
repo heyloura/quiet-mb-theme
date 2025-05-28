@@ -58,7 +58,7 @@
             <dd>
                 <b>Backlinks</b>:
                 <ul>
-                {{ range $pages }}
+                {{ range $backlinks }}
                     {{ if .Title }}
                         <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
                     {{- else}}

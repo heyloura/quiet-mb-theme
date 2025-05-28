@@ -41,6 +41,29 @@
             </ul>
         </dd>
     {{ end }}
+    
+    {{ $permalinkurl := urls.Parse .Permalink }}
+    {{ $relpermalink := .RelPermalink }}
+    {{ $backlinks := slice }}
+    {{- range .Site.Pages -}}
+        {{- if strings.Contains .Content $relpermalink -}}
+            {{ $backlinks = $backlinks | append . }}
+        {{- end -}}
+    {{- end -}}
+    {{ with $backlinks }}
+        <dd>
+            <b>Backlinks</b>:
+            <ul>
+            {{ range $backlinks }}
+                {{ if .Title }}
+                    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                {{- else}}
+                    <li><a href="{{ .Permalink }}">{{ .Summary | truncate 150 }}</a></li>
+                {{- end}}
+            {{end}}
+            </ul>
+        </dd>
+    {{ end }}
 </dl>
 <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
 <ul>
