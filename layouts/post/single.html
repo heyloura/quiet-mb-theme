@@ -3,7 +3,7 @@
     {{ if .Title }}
         <dt class="p-name">
             <a href="{{ .Permalink }}" class="u-url">
-                &#128279 {{ .Title }}
+                &#128279; {{ .Title }}
             </a>   
         </dt> 
     {{ else }}
@@ -65,7 +65,7 @@
         </dd>
     {{ end }}
 </dl>
-<script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
+<script src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
 <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/archive">Archive</a></li>

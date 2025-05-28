@@ -1,4 +1,5 @@
-  <meta name="viewport" content="width=device-width", initial-scale="1">
+ <title>{{ $.Site.Title }}</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
 {{ if ne .Kind "home" }}
   <link rel="alternate" href="{{ "feed.xml" | absURL }}" type="application/rss+xml" title="{{ $.Site.Title }}">
   <link rel="alternate" href="{{ "feed.json" | absURL }}" type="application/json" title="{{ $.Site.Title }}">
