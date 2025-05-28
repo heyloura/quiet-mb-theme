@@ -1,4 +1,5 @@
 {{ define "main" }}
+    <h2>Recent:</h2>
     {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
     {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 1) }}
     {{- range $paginator.Pages  }}
@@ -70,4 +71,43 @@
     </dl>
     <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
     {{ end }}
+
+    <hr/>
+    <h2>Featured:</h2>
+    {{ $list := ($.Site.GetPage "taxonomyTerm" "categories").Pages }}
+    {{ if gt (len $list) 0 }}
+
+    {{ range $list }}
+        {{ if strings.Contains (lower .Title) "meta-" }}
+        {{ else if eq (lower .Title) "app defaults" }}
+        {{ else if eq (lower .Title) "change log" }}
+        {{ else if strings.Contains (lower .Title) "tags-" }}
+        {{ else }}
+            <p><a href="{{ .Permalink }}">&#128279;</a><b>{{ strings.FirstUpper .Title }}</b></p>
+            <ul role="list">
+            {{ $category := .Title }}
+            {{ if eq $category "Side Projects" }}
+                <li class="h-entry">
+                    <a class="p-url p-name" href="https://heyloura.com/categories/lillihub/">Lillihub 🐸</a>
+                </li>
+            {{ else if eq $category "Micro.blog" }}
+
+            {{ end }}
+            {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
+                {{ if and (in .Params.categories $category) }}
+                {{ if .Title }}
+                <li class="h-entry">
+                    <a class="p-url p-name" href="{{ if .Page.Params.redirect_url }}{{ .Page.Params.redirect_url }}{{ else }}{{ .Permalink }}{{ end }}">
+                        {{ .Title }}
+                    </a>
+                </li>
+                {{- end}}
+                {{- end}}
+            {{end}}
+            </ul>
+            {{- end }}
+        {{ end }}
+
+    {{ end }}
+
 {{ end }}
