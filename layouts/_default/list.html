@@ -12,7 +12,7 @@
     <h2>Featured:</h2>
     <ol role="list">
         {{ range .Pages }}
-        {{ if ne .Title nil }}
+        {{ if .Title }}
             <li class="h-entry">
                 <a class="u-url" href="{{ .Permalink }}">{{ .Title }}</a>
             </li>
