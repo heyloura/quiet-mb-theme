@@ -68,7 +68,10 @@
                 </ul>
             </dd>
         {{ end }}
-    </dl>
+    </dl>    
+    
+    <hr/>
+    <h2>Conversation:</h2>
     <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
     {{ end }}
 
@@ -94,7 +97,7 @@
 
             {{ end }}
             {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
-                {{ if and (in .Params.categories $category) }}
+                {{ if and (in .Params.categories $category) (in .Params.categories "meta-toc") }}
                 {{ if .Title }}
                 <li class="h-entry">
                     <a class="p-url p-name" href="{{ if .Page.Params.redirect_url }}{{ .Page.Params.redirect_url }}{{ else }}{{ .Permalink }}{{ end }}">
