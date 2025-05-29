@@ -1,0 +1,166 @@
+{{ define "main" }}
+{{ $list_images := where .Pages ".Params.images" "!=" nil -}}
+	<h1>{{ strings.FirstUpper (replace .Title "tags-" "") }}</h1>	
+    {{ $category := .Title }}
+    {{ range .Site.Pages }}
+    {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) (lower $category))}}
+        {{ .Content }}
+    {{- end}}
+    {{ end }}
+    
+    <hr/>
+    <h2>Featured:</h2>
+    <ol role="list">
+        {{ range .Pages }}
+        {{ if ne .Title nil }}
+            <li class="h-entry">
+                <a class="u-url" href="{{ .Permalink }}">{{ .Title }}</a>
+            </li>
+        {{ end }}
+        {{ end }}
+    </ol>
+
+    <hr/>
+    <h2>Recent:</h2>
+    <div class="h-feed" role="main">
+    {{- $title := .Title -}}
+    {{ $paginator := .Paginate (where .Pages.ByDate.Reverse "Type" "post") (index .Site.Params "archive-paginate" | default 10) }}
+        {{ range $paginator.Pages  }}
+        <dl class="h-entry">
+            {{ if .Title }}
+                <dt class="p-name">
+                    <a href="{{ .Permalink }}" class="u-url">
+                        {{ .Title }}
+                    </a>   
+                </dt> 
+                <dd>
+                    Published: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                        {{ .Date.Format "02 Jan 2006" }}
+                    </time>
+                </dd> 
+                {{ if gt (len .Content) 600 }}
+                <dd class="p-summary">
+                    {{ .Content | safeHTML | strings.Truncate 600 }}
+                </dd> 
+                <dd>
+                    <a href="{{ .Permalink }}">Read More →</a>
+                </dd>
+                {{ else }}
+                <dd class="e-content">
+                    {{ .Content }}
+                </dd>            
+                {{ end }}
+            {{ else }}
+                <dt>
+                    <a href="{{ .Permalink }}" class="u-url">
+                        <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
+                            {{ .Date.Format "02 Jan 2006" }}
+                        </time>
+                    </a>   
+                </dt>
+                <dd class="e-content">
+                {{ .Content }}
+                </dd>
+            {{ end }}
+            {{- if compare.Gt .Lastmod .Date -}}
+            <dd>
+                Updated: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
+                    {{  .Lastmod.Format "02 Jan 2006" }}
+                </time>
+            </dd>
+            {{- end -}}
+        </dl>
+
+        {{ end }}
+    </div>
+    {{- if or ($paginator.HasNext) ($paginator.HasPrev) }}
+    <ul>
+        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">← View older</a></li>{{ end }}
+        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">View newer →</a></li>{{ end }}
+    </ul>
+    {{- end }}
+
+
+
+
+	{{ if gt (len $list_images) 0 }}
+    <hr/>
+    <h2>Gallery:</h2>
+	<ul>
+		{{- $list := where .Pages ".Params.images" "!=" nil -}}
+        {{ range $index, $value := $list }}
+            <li><a href="{{ .Permalink }}">
+                {{ range first 1 .Params.images }}
+                    <img src="{{ . }}" loading="lazy" />
+                {{ end }}
+            </a></li>
+        {{ end }}
+    </ul>
+	{{ end }}
+
+
+{{ $feed_url := $.Site.Params.feeds.bookmarks_json }}
+{{ $response := getJSON $feed_url }}
+{{ $title := .Title }}
+
+{{ if isset $response "items" }}
+
+{{ $tags := slice }}
+{{ range $response.items }}
+ {{ if not (hasPrefix .id "link") }}
+    {{ $tags = $tags | append (split .tags ", ") }}
+ {{ end }}
+{{ end }}
+{{ $tags = uniq $tags }}
+
+{{ range sort $tags }}
+    {{ $tag := . }}
+
+    {{ if eq $tag $title }}
+
+    <hr/>
+    <h2>Bookmarks:</h2>
+    {{ range $response.items }}
+    {{ $url := urls.Parse .url }}
+     {{ if not (hasPrefix .id "link") }}
+        {{ if strings.Contains .tags $tag }}
+	    <figure>
+            <figcaption><cite><a target="_blank" class="u-bookmark-of" href="{{ .url }}">{{ $url.Host }}</a><br/><small>Bookmarked: {{ time.Format "2 Jan 06" .date_published}}</small></cite></figcaption>
+            <blockquote>
+            <p style="overflow-wrap: anywhere;">{{ replace (replace ( .content_html | plainify | truncate 300 ) "Reader: " "") $url.Host "" }}</p>
+            </blockquote>
+      	</figure>
+        {{ end }}
+     {{ end }}
+    {{ end }}
+    {{ end }}
+
+{{ end }}
+
+{{ end }}
+
+{{ $bookshelf := .Title  }}
+{{ if in .Site.Data.bookshelves $bookshelf}}
+    <hr/>
+    <h2>Books:</h2>
+    <dl>
+    {{ range (index .Site.Data.bookshelves $bookshelf) }}
+        <dt>
+            <a href="https://micro.blog/books/{{ .isbn }}">
+                <img src="{{ .cover_url }}" loading="lazy" />
+            </a>
+        </dt>
+        <dd>
+            <b>Title</b>: 
+            <a href="https://micro.blog/books/{{ .isbn }}">
+                <h3 class="bookshelf__title">{{ .title }}</h3>
+            </a>
+        </dd>
+        <dd>
+            <b>Author</b>: {{ .author }}
+        </dd>
+    {{ end }}
+    </ul>
+{{end}}
+
+{{ end }}

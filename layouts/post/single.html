@@ -2,17 +2,17 @@
 <dl class="h-entry">
     {{ if .Title }}
         <dt class="p-name">
-            <a href="{{ .Permalink }}" class="u-url">
+            <h1><a href="{{ .Permalink }}" class="u-url">
                 &#128279; {{ .Title }}
-            </a>   
+            </a></h1>   
         </dt> 
     {{ else }}
         <dt>
-            <a href="{{ .Permalink }}" class="u-url">
+            <h1><a href="{{ .Permalink }}" class="u-url">
                 <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
                     &#128279; {{ .Date.Format "02 Jan 2006" }}
                 </time>
-            </a>   
+            </a></h1>   
         </dt>
     {{ end }}
         <dd>
