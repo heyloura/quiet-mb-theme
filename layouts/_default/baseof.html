@@ -4,8 +4,14 @@
         {{ partial "head.html" . }}
     </head>
     <body>
-        {{ partial "header.html" . }}
-        {{ block "main" . }}{{ end }}
-        {{ partial "footer.html" . }}
+        <table width="360">
+            <tr>
+                <td>
+                    {{ partial "header.html" . }}
+                    {{ block "main" . }}{{ end }}
+                    {{ partial "footer.html" . }}
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
