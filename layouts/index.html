@@ -1,8 +1,7 @@
 {{ define "main" }}
-    {{ $pages := where (and (.Site.Pages.ByLastmod.Reverse "Type" "post") (eq .Site.Pages.ByLastmod.Year .Now.Year)) }}
-    {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 1000) }}
-    <h2>{{.Now.Year}}</h2>
-    {{- range $paginator.Pages  }}
+    {{ range (.Paginate (where .Site.Pages "Type" "post") 10).Pages.GroupByDate "January 2, 2006" }}
+    <h2>{{.Key}}:</h2>
+    {{ range .Pages.Reverse }}
     <dl class="h-entry" role="main">
         {{ if .Title }}
             <dt class="p-name">
@@ -70,8 +69,9 @@
         {{ end }}
     </dl>    
     
-    <h3>Conversation:</h3>
-    <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
+    <!--<h3>Conversation:</h3>
+    <script type="text/javascript" src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>-->
+    {{ end }}
     {{ end }}
 
     <hr/>
