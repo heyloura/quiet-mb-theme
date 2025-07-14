@@ -97,16 +97,16 @@
 	{{ if gt (len $list_images) 0 }}
     <hr/>
     <h2>Gallery:</h2>
-	<ul>
+	<div class="photos-grid-container">
 		{{- $list := where .Pages ".Params.images" "!=" nil -}}
         {{ range $index, $value := $list }}
-            <li><a href="{{ .Permalink }}">
+            <a href="{{ .Permalink }}">
                 {{ range first 1 .Params.images }}
                     <img src="{{ . }}" loading="lazy" />
                 {{ end }}
-            </a></li>
+            </a>
         {{ end }}
-    </ul>
+        </div>
 	{{ end }}
 
 

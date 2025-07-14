@@ -17,7 +17,7 @@
 {{ range .Pages }}
 		<a href="{{ .Permalink }}">
 			{{ range first 1 .Params.photos }}
-				<img src="{{ . }}" width="300" height="300" style="border-radius: 5px; max-width: 100%; height: auto;" class="photos-grid-item" loading="lazy" />
+				<img src="{{ . }}" width="300" height="300" class="photos-grid-item" loading="lazy" />
 			{{ end }}
 		</a>
 {{ end }}
