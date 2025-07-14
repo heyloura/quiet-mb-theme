@@ -1,5 +1,5 @@
 {{ define "main" }}
-    {{ range (.Paginate (where .Site.Pages "Type" "post") 10).Pages.GroupByDate "January 2, 2006" }}
+    {{ range (.Paginate (where .Site.Pages "Type" "post") 10).Pages.GroupByDate "January 2006" }}
     <h2>{{.Key}}:</h2>
     {{ range .Pages.Reverse }}
     <dl class="h-entry" role="main">
