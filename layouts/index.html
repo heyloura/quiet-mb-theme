@@ -1,8 +1,8 @@
 {{ define "main" }}
     {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post").GroupByDate "2006" }}
+    {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 1) }}
     <h2>{{.Key}}:</h2>
     
-    {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 1) }}
     {{- range $paginator.Pages  }}
     <dl class="h-entry" role="main">
         {{ if .Title }}
