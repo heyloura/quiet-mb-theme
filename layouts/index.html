@@ -8,9 +8,10 @@
         ></quiet-typewriter>
     <quiet-random-content unique style="display: flex; flex-direction: column; gap: 1rem;" id="random__overview">
         {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
-        {{ $pages = where $pages "Params.title" "eq" nil }}
-        {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 10) }}
-        {{- range $paginator.Pages  }}
+	    {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 20) }}
+	    {{- range $paginator.Pages  }}
+		{{ if .Title }}
+		{{ else }}
         <quiet-card orientation="horizontal" id="card__orientation">
             {{ range first 1 .Params.photos }}
 				<img slot="media" src="{{ . }}" loading="lazy" />
@@ -23,6 +24,7 @@
             </quiet-button>
         </quiet-card>
         {{ end }}
+		{{ end }}
     </quiet-random-content>     
 
     {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
