@@ -36,7 +36,9 @@
 <link rel="webmention" href="https://micro.blog/webmention">
 <link rel="micropub" href="https://micro.blog/micropub">
 <link rel="microsub" href="https://micro.blog/microsub">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.1.1/dist/themes/quiet.css">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.1.1/dist/quiet.loader.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@quietui/quiet-browser@1.1.1/dist/themes/restyle.css">
 <link rel="stylesheet" href="{{ "custom.css" | relURL }}?{{ .Site.Params.theme_seconds }}">
 
 {{ range .Site.Params.plugins_css }}
@@ -45,4 +47,5 @@
 
 {{ range $filename := .Site.Params.plugins_html }}
   {{ partial $filename $ }}
+
 {{ end }}
