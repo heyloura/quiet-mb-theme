@@ -61,3 +61,4 @@ quiet-card:not([slot="back"]) {
     margin-block-end: 1rem;
   }
 }
+.long-post{margin-top: 1em;}
