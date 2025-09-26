@@ -5,7 +5,6 @@ quiet-avatar{margin-right:1em;}
 quiet-random-content,quiet-typewriter,quiet-search-list,.mt,.microblog_reply_form{margin-top:2em;}
 #more,.microblog_post {margin-top: 1em;display: block;}
 .e-content img, .e-content video{height:unset;}
-section{background-color: rgba(0,0,0,0.4);border-radius: var(--quiet-border-radius-md);}
 .microblog_user{
     display: flex;
     gap: 0.5em;

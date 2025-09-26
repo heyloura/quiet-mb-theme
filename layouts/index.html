@@ -14,6 +14,16 @@
             {{ if .Title }}
             {{ else }}
             <quiet-card class="e-content" orientation="horizontal" id="card__orientation">
+                {{- $permalink := .Permalink -}}
+                {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
+                {{- $len := (len $list) -}}
+                {{ range $index, $value := $list }}
+                    {{ if eq $permalink .Permalink }} 
+                        {{ range first 1 .Params.photos }}
+                            <img slot="media" src="{{ . }}">
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
                 {{ .Content | strings.Truncate 300 }}
                 <quiet-button evt-click="randomize" slot="actions" appearance="text" icon-label="More info" pill>
                     <quiet-icon name="arrows-shuffle"></quiet-icon>
