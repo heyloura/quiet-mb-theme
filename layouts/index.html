@@ -9,18 +9,17 @@
     <div class="h-feed">
         <quiet-random-content unique style="display: flex; flex-direction: column; gap: 1rem;" id="random__overview">
             {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
-            {{ $pages = where $pages "Params.title" "eq" nil }}
             {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 20) }}
             {{- range $paginator.Pages  }}
+            {{ if .Title }}
+            {{ else }}
             <quiet-card class="e-content" orientation="horizontal" id="card__orientation">
-
-                
-                {{ .Content }}
-        
+                {{ .Content | strings.Truncate 300 }}
                 <quiet-button evt-click="randomize" slot="actions" appearance="text" icon-label="More info" pill>
                     <quiet-icon name="arrows-shuffle"></quiet-icon>
                 </quiet-button>
             </quiet-card>
+            {{ end }}
             {{ end }}
         </quiet-random-content>     
     </div>
@@ -32,9 +31,9 @@
             ></quiet-typewriter>
     <div class="mt h-feed">
         {{ $pages := (where .Site.Pages.ByLastmod.Reverse "Type" "post") }}
-        {{ $pages = where $pages "Params.title" "ne" nil }}
         {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 20) }}
         {{- range $paginator.Pages  }}
+        {{ if .Title}}
         <div class="item long-post e-content">
             <h4>{{ .Title }}</h4>
             {{ if .Summary}}
@@ -43,6 +42,7 @@
             {{ .Content | strings.Truncate 600 }}
             {{ end }}
         </div>
+        {{ end }}
         {{ end }}
     </div>
 </section>
