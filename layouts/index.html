@@ -13,8 +13,10 @@
 		{{ if .Title }}
 		{{ else }}
         <quiet-card orientation="horizontal" id="card__orientation">
+			{{ if .Params.photos "!=" nil }}
             {{ range first 1 .Params.photos }}
 				<img slot="media" src="{{ . }}" loading="lazy" />
+			{{ end }}
 			{{ end }}
             
             Starting the morning with two things I love, tai chi and coffee.
@@ -142,3 +144,4 @@
 
 
 {{ end }}
+
