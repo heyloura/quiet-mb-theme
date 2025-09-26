@@ -1,28 +1,29 @@
-<div class="h-card">
-    <h1>
-        <img loading="lazy" 
-        src="{{ .Site.Author.avatar }}" 
-        alt="{{ .Site.Title }} Profile Photo" 
-        class="u-photo" 
-        width="80" 
-        height="80"><br/>
-        <a class="p-name u-url" href="/">{{ .Site.Title }}</a> a level {{ len ((where .Site.Pages "Type" "post").GroupByDate "2006" )}} webmaster
-    </h1>
-</div>
-<ul role="navigation">
-    {{ range .Site.Menus.main }}
-    {{ if .Page.Params.redirect_url }}
-    <li>
-        <a href="{{ .Page.Params.redirect_url }}">
-            {{ .Name }}
-        </a>
-    </li>
-    {{ else }}
-    <li>
-        <a href="{{ .URL | relLangURL | safeURL }}">
-            {{ .Name }}
-        </a>
-    </li>
-    {{ end }}
-    {{ end }}
-</ul>
+<quiet-button appearance="text" data-dialog="open navigation-menu"><quiet-icon name="menu-2"></quiet-icon> Menu</quiet-button>
+<quiet-dialog id="navigation-menu" placement="start">
+    <h3 slot="header" style="font-size: 1.25rem; margin-block: 0;">
+        Navigation
+    </h3>
+
+    <quiet-card>
+        <quiet-avatar image="{{ .Site.Author.avatar }}"></quiet-avatar>
+        <h3 class="name"><a class="p-name u-url" href="/">{{ .Site.Title }}</a></h3>
+    </quiet-card>
+
+    <nav>
+        {{ range .Site.Menus.main }}
+        {{ if .Page.Params.redirect_url }}
+            <a href="{{ .Page.Params.redirect_url }}">
+                {{ .Name }}
+            </a>
+        {{ else }}
+            <a href="{{ .URL | relLangURL | safeURL }}">
+                {{ .Name }}
+            </a>
+        {{ end }}
+        {{ end }}
+    </nav>
+
+    <quiet-button slot="footer" data-dialog="close" variant="primary">
+        Close
+    </quiet-button>
+</quiet-dialog>
