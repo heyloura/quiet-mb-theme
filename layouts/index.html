@@ -56,4 +56,12 @@
         {{ end }}
     </div>
 </section>
+<script>
+  const random = document.getElementById('random__overview');
+  document.addEventListener('click', (event) => {
+    if(event.target.getAttribute('evt-click' == 'randomize')){
+        random.randomize();
+    }
+  });
+</script>
 {{ end }}
