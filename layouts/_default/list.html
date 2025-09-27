@@ -16,14 +16,20 @@
 
             {{ range (where .Pages.ByDate.Reverse "Type" "post") }}
                 <div class="item h-entry">
-                    <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
+                    {{ if .Title}}
+                    <h4 href="{{ .Permalink }}" class="u-url"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
+                    {{ end }}
                     <p class="p-summary">{{ .Summary | truncate 100 }}</p>
                     <div class="tags">
                     {{- range $index, $category := .Page.Params.categories -}}
                         <a class="p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
                     {{- end -}}
                     </div>
+                    {{ if .Title}}
                     <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
+                    {{ else }}
+                    <cite href="{{ .Permalink }}" class="u-url"><a href="{{ .Permalink }}" class="u-url"><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></a></cite>
+                    {{ end }}
                 </div>
             {{- end}}
 
@@ -35,7 +41,35 @@
             </quiet-empty-state>
         </quiet-search-list>
 
+      {{ $list_images := where .Pages ".Params.images" "!=" nil -}}
+      {{ if gt (len $list_images) 0 }}
+        <h1>Photos from posts</h1>
+            <quiet-search-list id="search-list__keywords">
+        {{- $len := (len $list_images) -}}
+        {{ range $index, $value := $list_images }}
+          <a href="{{ .Permalink }}" class="gallery-item">
+            {{ range first 1 .Params.photos }}
+              <img src="{{ . }}" loading="lazy" />
+            {{ end }}
+          </a>
+        {{ end }}
+          </quiet-search-list>
+      </section>
 
+      <style>
+        #search-list__keywords {
+          &::part(items) {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(145px, 100%), 1fr));
+          }
+
+          img {
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+      </style>
+        {{ end }}
 
 <script>
   const searchList = document.getElementById('search-list__custom');
