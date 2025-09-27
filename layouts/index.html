@@ -57,11 +57,12 @@
     </div>
 </section>
 <script>
-  const random = document.getElementById('random__overview');
+  const randomList = document.getElementById('random__overview');
   document.addEventListener('click', (event) => {
     console.log(event.target)
     if(event.target.getAttribute('evt-click' == 'randomize')){
-        random.randomize();
+        console.log(randomList);
+        randomList.randomize();
     }
   });
 </script>
