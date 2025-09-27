@@ -5,7 +5,7 @@
 		<h1>Archive</h1>
         {{- $categories := .Site.Taxonomies.categories.Alphabetical }}
 		{{- $category_count := .Site.Params.show_category_count }}
-		{{- if and (.Site.Params.show_categories) (gt (len $categories) 0) }}
+		{{- if gt (len $categories) 0 }}
 		<div class="archive-categories">
             {{ range $categories }}
             <a class="p-category" href="{{ .Page.Permalink }}">{{ .Page.Title | safeHTML }}&nbsp;<span class="post-count">({{ .Count }})</span></a>

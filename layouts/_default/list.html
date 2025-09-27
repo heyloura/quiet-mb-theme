@@ -1,9 +1,6 @@
 {{ define "main" }}
     <section>
-    <h2>{{ .Title }}</h2>
     <div class="h-feed" role="main">
-
-        {{ $list := (where .Site.Pages "Type" "post") }}
 		<h1>{{ .Title }}</h1>
         <quiet-search-list match="custom" id="search-list__custom">
         <!-- Controller -->
@@ -17,18 +14,20 @@
                 <quiet-icon slot="start" name="search"></quiet-icon>
             </quiet-text-field>
 
-            {{ range $list }}
-            <div class="item h-entry">
-                <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
-                <p class="p-summary">{{ .Summary | truncate 100 }}</p>
-                <div class="tags">
-                {{- range $index, $category := .Page.Params.categories -}}
-                    <a class="p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
-                {{- end -}}
-                </div>
-                <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
-            </div>
-            {{ end }}
+            {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
+                {{ if in .Params.categories .Title }}
+                    <div class="item h-entry">
+                        <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
+                        <p class="p-summary">{{ .Summary | truncate 100 }}</p>
+                        <div class="tags">
+                        {{- range $index, $category := .Page.Params.categories -}}
+                            <a class="p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
+                        {{- end -}}
+                        </div>
+                        <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
+                    </div>
+                {{- end}}
+            {{- end}}
 
             <!-- Empty state -->
             <quiet-empty-state slot="empty">
