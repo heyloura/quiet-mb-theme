@@ -54,7 +54,7 @@
 <script>
   document.querySelectorAll('quiet-random-content quiet-card').forEach(item => { 
     var img = item.querySelector('img');
-    if(img) {
+    if(img && !img.classList.contains('video-thumbnail')) {
         img.setAttribute('slot','media');
         item.prepend(img);
     } else {
