@@ -14,14 +14,15 @@
             {{ if .Title }}
             {{ else }}
             <quiet-card class="e-content" orientation="horizontal" id="card__orientation">
-                {{ replace .Content "<img" "<img slot='media' loading='lazy'" | safeHTML }}
-                <quiet-button evt-click="randomize" slot="actions" appearance="text" icon-label="Shuffle" pill>
-                    <quiet-icon evt-click="randomize" name="arrows-shuffle"></quiet-icon>
-                </quiet-button>
+                {{ .Content }}
+                <cite><a href="{{ .Permalink }}" class="u-url"><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">Published {{ .Date.Format "2 Jan 06" }}</time></a></cite>
             </quiet-card>
             {{ end }}
             {{ end }}
-        </quiet-random-content>     
+        </quiet-random-content>  
+        <quiet-button class="mt" evt-click="randomize" appearance="text" icon-label="Shuffle" pill>
+            Shuffle <quiet-icon evt-click="randomize" name="arrows-shuffle"></quiet-icon>
+        </quiet-button>   
     </div>
     <quiet-typewriter 
             text="Recently updated posts" 
@@ -47,11 +48,18 @@
     </div>
 </section>
 <script>
+  document.querySelectorAll('quiet-card').forEach(item => { 
+    var img = item.querySelector('img');
+    if(img) {
+        img.setAttribute('slot','media');
+        item.prepend(img);
+    } else {
+        item.insertAdjacentHTML('afterbegin',`<img src="{{ .Site.Author.avatar }}" slot="media" />`);
+    }
+  });
   const randomList = document.getElementById('random__overview');
   document.addEventListener('click', (event) => {
-    console.log(event.target)
     if(event.target.getAttribute('evt-click') == 'randomize'){
-        console.log(randomList);
         randomList.randomize();
     }
   });
