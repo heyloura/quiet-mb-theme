@@ -19,9 +19,11 @@
             <div class="item h-entry" data-category="indoor">
                 <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
                 <p class="p-summary">{{ .Summary | truncate 100 }}</p>
+                <div class="tags">
                 {{- range $index, $category := .Page.Params.categories -}}
-                    <a class="subheading" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
+                    <a class="subheading p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
                 {{- end -}}
+                </div>
                 <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
             </div>
             {{ end }}
@@ -52,7 +54,8 @@
 </script>
 
 <style>
-    .subheading{color:var(--quiet-primary-text-on-soft)}
+  .tags{display:flex;gap:0.5em;}
+  .subheading{color:var(--quiet-primary-text-on-soft);font-size: 0.875rem;}
   #search-list__custom {
     &::part(items) {
       display: grid;

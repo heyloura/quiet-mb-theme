@@ -72,3 +72,4 @@ quiet-card > img[slot="media"] {
   aspect-ratio: 1 / 1;
   max-width: 325px;
 }
+section{min-height: 85vh;}
