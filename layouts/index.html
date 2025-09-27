@@ -14,7 +14,7 @@
             {{ if .Title }}
             {{ else }}
             <quiet-card class="e-content" orientation="horizontal" id="card__orientation">
-                {{ range first 1 .Params}}
+                {{ range first 1 .params.images}}
                     <!--<img slot="media" src="{{ . }}">-->
                     <p>{{.}}</p>
                 {{ end }}
