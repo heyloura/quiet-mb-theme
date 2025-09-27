@@ -6,7 +6,57 @@
     <body>
         {{ partial "header.html" . }}
         {{ block "main" . }}{{ end }}
-        {{ partial "footer.html" . }}
+        <script>
+        window.Prism = window.Prism || {};
+        window.Prism.manual = true;
+        </script>
+
+        <script src="/js/prism.js"></script>
+
+        <script>
+            function wrapInner(parent, wrapper) {
+                if (typeof wrapper === "string")
+                wrapper = document.createElement(wrapper);
+                wrapper.classList.add("language-html");
+                
+                var div = parent.appendChild(wrapper);
+                
+                while(parent.firstChild !== wrapper)
+                wrapper.appendChild(parent.firstChild);
+            }
+            var pres = document.querySelectorAll('pre');
+            pres.forEach(function (pre, index) {
+                var hasCodeEl = false;
+                var hasCodeClass = false;
+                for (var i = 0; i < pre.children.length; i++) 
+                {
+                    var child = pre.children[i];
+                    if(child.nodeName == "CODE") 
+                    {
+                        hasCodeEl = true;
+                    }
+                }
+                for (var j = 0; j < pre.classList.length; j++) 
+                {
+                    console.log(pre.classList[j].indexOf('language-') );
+                    if(pre.classList[j].indexOf('language-') > -1) 
+                    {
+                        hasCodeClass = true;
+                    }
+                }
+                if(!hasCodeClass) 
+                {
+                    console.log('need to add class');
+                    pre.classList.add("language-html")
+                }
+                if(!hasCodeEl) 
+                {
+                    //wrap code element around content
+                    wrapInner(pre, "code");
+                }
+            });
+            Prism.highlightAll();
+        </script>
     </body>
 
 </html>

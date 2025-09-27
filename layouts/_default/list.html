@@ -14,7 +14,7 @@
                 <quiet-icon slot="start" name="search"></quiet-icon>
             </quiet-text-field>
 
-            {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
+            {{ range (where .Pages.ByDate.Reverse "Type" "post") }}
                 <div class="item h-entry">
                     <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
                     <p class="p-summary">{{ .Summary | truncate 100 }}</p>
