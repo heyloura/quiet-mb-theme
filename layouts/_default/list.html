@@ -1,27 +1,6 @@
 {{ define "main" }}
-{{ $list_images := where .Pages ".Params.images" "!=" nil -}}
-	<h1>{{ strings.FirstUpper (replace .Title "tags-" "") }}</h1>	
-    {{ $category := .Title }}
-    {{ range .Site.Pages }}
-    {{- if and (in .Params.Navigation "false") (eq (lower .Params.Title) (lower $category))}}
-        {{ .Content }}
-    {{- end}}
-    {{ end }}
-    
-    <hr/>
-    <h2>Featured:</h2>
-    <ol role="list">
-        {{ range .Pages }}
-        {{ if in .Page.Params.categories "meta-toc" }}
-            <li class="h-entry">
-                <a class="u-url" href="{{ .Permalink }}">{{ .Title }}</a>
-            </li>
-        {{ end }}
-        {{ end }}
-    </ol>
-
-    <hr/>
-    <h2>Recent:</h2>
+    <section>
+    <h2>{{ .Title }}</h2>
     <div class="h-feed" role="main">
     {{- $title := .Title -}}
     {{ $paginator := .Paginate (where .Pages.ByDate.Reverse "Type" "post") (index .Site.Params "archive-paginate" | default 3) }}
@@ -90,88 +69,5 @@
         {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">View newer →</a></li>{{ end }}
     </ul>
     {{- end }}
-
-
-
-
-	{{ if gt (len $list_images) 0 }}
-    <hr/>
-    <h2>Gallery:</h2>
-	<div class="photos-grid-container">
-		{{- $list := where .Pages ".Params.images" "!=" nil -}}
-        {{ range $index, $value := $list }}
-            <a href="{{ .Permalink }}">
-                {{ range first 1 .Params.images }}
-                    <img src="{{ . }}" loading="lazy" />
-                {{ end }}
-            </a>
-        {{ end }}
-        </div>
-	{{ end }}
-
-
-{{ $feed_url := $.Site.Params.feeds.bookmarks_json }}
-{{ $response := getJSON $feed_url }}
-{{ $title := .Title }}
-
-{{ if isset $response "items" }}
-
-{{ $tags := slice }}
-{{ range $response.items }}
- {{ if not (hasPrefix .id "link") }}
-    {{ $tags = $tags | append (split .tags ", ") }}
- {{ end }}
-{{ end }}
-{{ $tags = uniq $tags }}
-
-{{ range sort $tags }}
-    {{ $tag := . }}
-
-    {{ if eq $tag $title }}
-
-    <hr/>
-    <h2>Bookmarks:</h2>
-    {{ range $response.items }}
-    {{ $url := urls.Parse .url }}
-     {{ if not (hasPrefix .id "link") }}
-        {{ if strings.Contains .tags $tag }}
-	    <figure>
-            <figcaption><cite><a target="_blank" class="u-bookmark-of" href="{{ .url }}">{{ $url.Host }}</a><br/><small>Bookmarked: {{ time.Format "2 Jan 06" .date_published}}</small></cite></figcaption>
-            <blockquote>
-            <p style="overflow-wrap: anywhere;">{{ replace (replace ( .content_html | plainify | truncate 300 ) "Reader: " "") $url.Host "" }}</p>
-            </blockquote>
-      	</figure>
-        {{ end }}
-     {{ end }}
-    {{ end }}
-    {{ end }}
-
-{{ end }}
-
-{{ end }}
-
-{{ $bookshelf := .Title  }}
-{{ if in .Site.Data.bookshelves $bookshelf}}
-    <hr/>
-    <h2>Books:</h2>
-    <dl>
-    {{ range (index .Site.Data.bookshelves $bookshelf) }}
-        <dt>
-            <a href="https://micro.blog/books/{{ .isbn }}">
-                <img src="{{ .cover_url }}" loading="lazy" />
-            </a>
-        </dt>
-        <dd>
-            <b>Title</b>: 
-            <a href="https://micro.blog/books/{{ .isbn }}">
-                <h3 class="bookshelf__title">{{ .title }}</h3>
-            </a>
-        </dd>
-        <dd>
-            <b>Author</b>: {{ .author }}
-        </dd>
-    {{ end }}
-    </ul>
-{{end}}
-
+    </section>
 {{ end }}
