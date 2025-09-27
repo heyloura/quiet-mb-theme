@@ -14,7 +14,8 @@
             {{ if .Title }}
             {{ else }}
             <quiet-card class="e-content" orientation="horizontal" id="card__orientation">
-                {{ .Content }}
+                <div style="display: none;">{{ .Content }}</div>
+                {{ .Content | plainify }}
                 <cite><a href="{{ .Permalink }}" class="u-url"><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">Published {{ .Date.Format "2 Jan 06" }}</time></a></cite>
             </quiet-card>
             {{ end }}
@@ -58,7 +59,7 @@
         img.setAttribute('slot','media');
         item.prepend(img);
     } else {
-        item.insertAdjacentHTML('afterbegin',`<img src="{{ .Site.Author.avatar }}" slot="media" />`);
+        item.insertAdjacentHTML('afterbegin',`<quiet-avatar slot="header" image="{{ .Site.Author.avatar }}"></quiet-avatar>`);
     }
   });
   const randomList = document.getElementById('random__overview');
