@@ -25,7 +25,7 @@
                     {{ end }}
                 {{ end }}
                 {{ .Content | strings.Truncate 300 }}
-                <quiet-button evt-click="randomize" slot="actions" appearance="text" icon-label="More info" pill>
+                <quiet-button evt-click="randomize" slot="actions" appearance="text" icon-label="Shuffle" pill>
                     <quiet-icon name="arrows-shuffle"></quiet-icon>
                 </quiet-button>
             </quiet-card>
@@ -59,6 +59,7 @@
 <script>
   const random = document.getElementById('random__overview');
   document.addEventListener('click', (event) => {
+    console.log(event.target)
     if(event.target.getAttribute('evt-click' == 'randomize')){
         random.randomize();
     }
