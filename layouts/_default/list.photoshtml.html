@@ -2,48 +2,43 @@
 
 <section>
     <h1>Photos</h1>
+    <quiet-search-list id="search-list__keywords">
+    <!-- Controller -->
+    <!-- <quiet-text-field 
+        slot="controller" 
+        label="Search by color"
+        description="e.g. brown, orange, white, gray, black"
+        type="search" 
+        with-clear
+        pill
+    >
+        <quiet-icon slot="start" name="search"></quiet-icon>
+    </quiet-text-field> -->
+
+    <!-- Items -->
     {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
 	{{- $len := (len $list) -}}
 	{{ range $index, $value := $list }}
 		<a href="{{ .Permalink }}" class="gallery-item">
 			{{ range first 1 .Params.photos }}
-				<img src="{{ . }}" width="300" height="300" class="photos-grid-item" loading="lazy" />
+				<img src="{{ . }}" loading="lazy" />
 			{{ end }}
 		</a>
 	{{ end }}
+    </quiet-search-list>
 </section>
 
 <style>
-	.square-gallery {
-		  display: grid;
-		  grid-template-columns: repeat(3, 1fr);
-		  width: min(73vw, 548px);
-	}
-	.gallery-item {
-		display: flex;
-		justify-content: center;
-		width: calc(min(73vw, 548px) / 3);
-		height: calc(min(73vw, 548px)/ 3);
-		background-position: center center;
-		background-size: cover;
-		background-repeat: no-repeat;
-	}
-	@media (min-width:768px) {
-		.square-gallery {
-			  display: grid;
-			  grid-template-columns: repeat(3, 1fr);
-			  width: min(54vw, 548px);
-		}
-		.gallery-item {
-			display: flex;
-			justify-content: center;
-			width: calc(min(54vw, 548px) / 3);
-			height: calc(min(54vw, 548px) / 3);
-			background-position: center center;
-			background-size: cover;
-			background-repeat: no-repeat;
-		}
-	}
-</style>
+  #search-list__keywords {
+    &::part(items) {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(145px, 100%), 1fr));
+    }
 
+    img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>
 {{ end }}
