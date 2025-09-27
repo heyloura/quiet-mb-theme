@@ -35,20 +35,23 @@
         {{- $paginator := .Paginate $pages (index .Site.Params "archive-paginate" | default 20) }}
         {{- range $paginator.Pages  }}
         {{ if .Title}}
-        <div class="item long-post e-content">
-            <h4>{{ .Title }}</h4>
+        <div class="item long-post h-entry">
+            <h4><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
+            <div class="p-summary">
             {{ if .Summary}}
             {{ .Summary }}
             {{ else }}
-            {{ .Content | strings.Truncate 600 }}
+            {{ .Content | strings.Truncate 400 }}
             {{ end }}
+            </div>
+            <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">Published {{ .Date.Format "2 Jan 06" }}</time></cite>
         </div>
         {{ end }}
         {{ end }}
     </div>
 </section>
 <script>
-  document.querySelectorAll('quiet-card').forEach(item => { 
+  document.querySelectorAll('quiet-random-content quiet-card').forEach(item => { 
     var img = item.querySelector('img');
     if(img) {
         img.setAttribute('slot','media');

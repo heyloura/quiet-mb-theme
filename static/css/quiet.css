@@ -68,3 +68,7 @@ quiet-card:not([slot="back"]) {
   }
 }
 .long-post{margin-top: 1em;}
+quiet-card > img[slot="media"] {
+  aspect-ratio: 1 / 1;
+  max-width: 325px;
+}
