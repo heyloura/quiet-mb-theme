@@ -2,72 +2,103 @@
     <section>
     <h2>{{ .Title }}</h2>
     <div class="h-feed" role="main">
-    {{- $title := .Title -}}
-    {{ $paginator := .Paginate (where .Pages.ByDate.Reverse "Type" "post") (index .Site.Params "archive-paginate" | default 3) }}
-        {{ range $paginator.Pages  }}
-        <dl class="h-entry">
-            {{ if .Title }}
-                <dt class="p-name">
-                    <a href="{{ .Permalink }}" class="u-url">
-                        {{ .Title }}
-                    </a>   
-                </dt> 
-                <dd>
-                    <b>Published</b>: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                        {{ .Date.Format "02 Jan 2006" }}
-                    </time>
-                </dd> 
-                {{ if gt (len .Content) 600 }}
-                <dd class="p-summary">
-                    {{ .Content | safeHTML | strings.Truncate 600 }}
-                </dd> 
-                <dd>
-                    <a href="{{ .Permalink }}">Read More →</a>
-                </dd>
-                {{ else }}
-                <dd class="e-content">
-                    {{ .Content }}
-                </dd>            
-                {{ end }}
-            {{ else }}
-                <dt>
-                    <a href="{{ .Permalink }}" class="u-url">
-                        <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                            {{ .Date.Format "02 Jan 2006" }}
-                        </time>
-                    </a>   
-                </dt>
-                <dd class="e-content">
-                {{ .Content }}
-                </dd>
+
+        {{ $list := (where .Site.Pages "Type" "post") }}
+		<h1>{{ .Title }}</h1>
+        <quiet-search-list match="custom" id="search-list__custom">
+        <!-- Controller -->
+            <quiet-text-field 
+                slot="controller" 
+                label="Search {{ .Title }} posts"
+                type="search" 
+                with-clear
+                pill
+            >
+                <quiet-icon slot="start" name="search"></quiet-icon>
+            </quiet-text-field>
+
+            {{ range $list }}
+            <div class="item h-entry">
+                <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
+                <p class="p-summary">{{ .Summary | truncate 100 }}</p>
+                <div class="tags">
+                {{- range $index, $category := .Page.Params.categories -}}
+                    <a class="p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
+                {{- end -}}
+                </div>
+                <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
+            </div>
             {{ end }}
-            {{- if compare.Gt .Lastmod .Date -}}
-            <dd>
-                <b>Updated</b>: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
-                    {{  .Lastmod.Format "02 Jan 2006" }}
-                </time>
-            </dd>
-            {{- end -}}
-            {{ if .Params.categories }}
-            <dd>
-                <b>Filed under</b>:
-                <ul>
-                    {{ range .Params.categories }} 
-                    {{ $href := print (absURL "categories/") (urlize (replace . "tags-" "")) }}
-                    <li><a class="p-category" href="{{ $href }}">{{ . | safeHTML }}</a></li> 
-                    {{ end }}
-                </ul>
-            </dd>
-            {{ end }}
-        </dl>
-        <hr/>
-        {{ end }}
-    </div>
-    {{- if or ($paginator.HasNext) ($paginator.HasPrev) }}
-    <ul>
-        {{ if $paginator.HasNext }}<li><a href="{{ $paginator.Next.URL }}">← View older</a></li>{{ end }}
-        {{ if $paginator.HasPrev }}<li><a href="{{ $paginator.Prev.URL }}">View newer →</a></li>{{ end }}
-    </ul>
-    {{- end }}
+
+            <!-- Empty state -->
+            <quiet-empty-state slot="empty">
+                <quiet-icon slot="illustration" name="cat"></quiet-icon>
+                <h4>No posts match your search</h4>
+                <p><small>Try searching by name or using the @indoor or @outdoor tags</small></p>
+            </quiet-empty-state>
+        </quiet-search-list>
+
+
+
+<script>
+  const searchList = document.getElementById('search-list__custom');
+
+  // A very contrived custom match function
+  searchList.isMatch = (query, content, el) => {
+    query = query.toLowerCase().trim();
+
+    // If no query, show all items
+    if (!query) return true;
+
+    return content.toLowerCase().includes(query);
+  };
+</script>
+
+<style>
+  .tags{display:flex;gap:0.5em;}
+  #search-list__custom {
+    &::part(items) {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+      gap: 1rem;
+    }
+
+    .item {
+      border: var(--quiet-border-style) var(--quiet-border-width) var(--quiet-neutral-stroke-softer);
+      border-radius: var(--quiet-border-radius-md);
+      background-color: var(--quiet-paper-color);
+      box-shadow: var(--quiet-shadow-softer);
+      padding: 1rem;
+
+      h4 {
+        margin: 0;
+        font-size: 1.125rem;
+      }
+
+      p {
+        color: var(--quiet-text-muted);
+        margin: 0.5rem 0;
+        font-size: 0.875rem;
+        margin-block-end: 0;
+      }
+    }
+
+    div[slot="empty"] {
+      text-align: center;
+      color: var(--quiet-text-muted);
+      margin-block-start: 1rem;
+      
+      quiet-icon {
+        font-size: 2.5rem;
+        stroke-width: 1px;
+      }
+
+      small {
+        display: block;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+</style>
     </section>
 {{ end }}
