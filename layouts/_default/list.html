@@ -15,18 +15,16 @@
             </quiet-text-field>
 
             {{ range (where .Site.Pages.ByDate.Reverse "Type" "post") }}
-                {{ if in .Params.categories .Title }}
-                    <div class="item h-entry">
-                        <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
-                        <p class="p-summary">{{ .Summary | truncate 100 }}</p>
-                        <div class="tags">
-                        {{- range $index, $category := .Page.Params.categories -}}
-                            <a class="p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
-                        {{- end -}}
-                        </div>
-                        <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
+                <div class="item h-entry">
+                    <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
+                    <p class="p-summary">{{ .Summary | truncate 100 }}</p>
+                    <div class="tags">
+                    {{- range $index, $category := .Page.Params.categories -}}
+                        <a class="p-category" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
+                    {{- end -}}
                     </div>
-                {{- end}}
+                    <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
+                </div>
             {{- end}}
 
             <!-- Empty state -->
