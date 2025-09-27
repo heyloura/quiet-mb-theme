@@ -14,8 +14,9 @@
             {{ if .Title }}
             {{ else }}
             <quiet-card class="e-content" orientation="horizontal" id="card__orientation">
-                {{ range first 1 .photos}}
-                    <img slot="media" src="{{ . }}">
+                {{ range first 1 .Params}}
+                    <!--<img slot="media" src="{{ . }}">-->
+                    <p>{{.}}</p>
                 {{ end }}
                 {{ .Content | strings.Truncate 300 }}
                 <quiet-button evt-click="randomize" slot="actions" appearance="text" icon-label="Shuffle" pill>
