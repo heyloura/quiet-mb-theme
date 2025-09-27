@@ -1,5 +1,6 @@
 {{ define "main" }}
 	{{ $list := (where .Site.Pages "Type" "post") }}
+    {{ $list = where $list "Params.title" "ne" nil }}
 	<section class="h-feed">
 		<h1>Archive</h1>
         <quiet-search-list match="custom" id="search-list__custom">
@@ -7,7 +8,6 @@
             <quiet-text-field 
                 slot="controller" 
                 label="Search posts"
-                description="Add @indoor or @outdoor to filter by category"
                 type="search" 
                 with-clear
                 pill
@@ -19,6 +19,9 @@
             <div class="item h-entry" data-category="indoor">
                 <h4 class="p-name"><a href="{{ .Permalink }}" class="u-url">{{ .Title }}</a></h4>
                 <p class="p-summary">{{ .Summary | truncate 100 }}</p>
+                {{- range $index, $category := .Page.Params.categories -}}
+                    <a class="subheading" href="/categories/{{ urlize (replace $category "tags-" "") }}">#{{ $category }}</a> 
+                {{- end -}}
                 <cite><time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">{{ .Date.Format "2 Jan 06" }}</time></cite>
             </div>
             {{ end }}
@@ -44,25 +47,12 @@
     // If no query, show all items
     if (!query) return true;
 
-    const environment = el.getAttribute('data-environment');
-    const envMatch = query.match(/@(indoor|outdoor)/);
-
-    // Look for @indoor or @outdoor in the query
-    if (envMatch) {
-      // Remove the environment tag from the query for text search
-      const searchEnvironment = envMatch[1];
-      const textQuery = query.replace(/@(indoor|outdoor)/, '').trim();
-
-      // Must match both environment and text (if any text remains)
-      return environment === searchEnvironment && (!textQuery || content.toLowerCase().includes(textQuery));
-    }
-
-    // If no environment tag was found, fall back to text search
     return content.toLowerCase().includes(query);
   };
 </script>
 
 <style>
+    .subheading{color:var(--quiet-primary-text-on-soft)}
   #search-list__custom {
     &::part(items) {
       display: grid;
