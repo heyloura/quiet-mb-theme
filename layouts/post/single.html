@@ -1,47 +1,31 @@
 {{ define "main" }}
-<dl class="h-entry">
+<section class="h-entry">
     {{ if .Title }}
-        <dt class="p-name">
-            <h1><a href="{{ .Permalink }}" class="u-url">
-                &#128279; {{ .Title }}
-            </a></h1>   
-        </dt> 
+        <h1 class="p-name">
+            <a href="{{ .Permalink }}" class="u-url">
+                {{ .Title }}
+            </a>
+        </h1> 
     {{ else }}
-        <dt>
-            <h1><a href="{{ .Permalink }}" class="u-url">
+        <h1>
+            <a href="{{ .Permalink }}" class="u-url">
                 <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                    &#128279; {{ .Date.Format "02 Jan 2006" }}
+                    {{ .Date.Format "02 Jan 2006" }}
                 </time>
-            </a></h1>   
-        </dt>
+            </a> 
+        </h1>
     {{ end }}
-        <dd>
-            <b>Published</b>: <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05-0700" }}">
-                {{ .Date.Format "02 Jan 2006" }}
-            </time>
-        </dd> 
-        <dd class="e-content">
-            {{ .Content }}
-        </dd>
-    {{- if compare.Gt .Lastmod .Date -}}
-        <dd>
-            <b>Updated</b>: <time class="dt-updated" datetime="{{  .Lastmod.Format "2006-01-02T15:04:05-0700" }}">
-                {{  .Lastmod.Format "02 Jan 2006" }}
-            </time>
-        </dd>
-    {{- end -}}
+    {{ .Content }}
     {{ if .Params.categories }}
-        <dd>
-            <b>Filed under</b>:
-            <ul>
-                {{ range .Params.categories }} 
-                {{ $href := print (absURL "categories/") (urlize (replace . "tags-" "")) }}
-                <li><a class="p-category" href="{{ $href }}">{{ . | safeHTML }}</a></li> 
-                {{ end }}
-            </ul>
-        </dd>
+    <hr>
+    <h3>Categories</h3>
+    <ul>
+        {{ range .Params.categories }} 
+        {{ $href := print (absURL "categories/") (urlize (replace . "tags-" "")) }}
+        <li><a class="p-category" href="{{ $href }}">{{ . | safeHTML }}</a></li> 
+        {{ end }}
+    </ul>
     {{ end }}
-    
     {{ $permalinkurl := urls.Parse .Permalink }}
     {{ $relpermalink := .RelPermalink }}
     {{ $backlinks := slice }}
@@ -51,19 +35,20 @@
         {{- end -}}
     {{- end -}}
     {{ with $backlinks }}
-        <dd>
-            <b>Backlinks</b>:
-            <ul>
-            {{ range $backlinks }}
-                {{ if .Title }}
-                    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-                {{- else}}
-                    <li><a href="{{ .Permalink }}">{{ .Summary | truncate 150 }}</a></li>
-                {{- end}}
-            {{end}}
-            </ul>
-        </dd>
+    <hr>
+    <h3>Backlinks</h3>
+    <ul>
+    {{ range $backlinks }}
+        {{ if .Title }}
+            <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+        {{- else}}
+            <li><a href="{{ .Permalink }}">{{ .Summary | truncate 150 }}</a></li>
+        {{- end}}
+    {{end}}
+    </ul>
     {{ end }}
-</dl>
-<script src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
+    <hr>
+    <h3>Conversation</h3>
+    <script src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
+</section>
 {{ end }}

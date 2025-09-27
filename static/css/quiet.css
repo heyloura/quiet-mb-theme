@@ -73,3 +73,4 @@ quiet-card > img[slot="media"] {
   max-width: 325px;
 }
 section{min-height: 85vh;}
+.p-category{color:var(--quiet-primary-text-on-soft);font-size: 0.875rem;}
