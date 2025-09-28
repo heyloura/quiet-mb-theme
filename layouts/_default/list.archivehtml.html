@@ -1,7 +1,7 @@
 {{ define "main" }}
 	{{ $list := (where .Site.Pages "Type" "post") }}
     {{ $list = where $list "Params.title" "ne" nil }}
-	<section class="h-feed">
+	<div class="h-feed">
 		<h1>Archive</h1>
         {{- $categories := .Site.Taxonomies.categories.Alphabetical }}
 		{{- $category_count := .Site.Params.show_category_count }}
@@ -44,7 +44,7 @@
                 <p><small>Try searching by name or using the @indoor or @outdoor tags</small></p>
             </quiet-empty-state>
         </quiet-search-list>
-	</section>
+      </div>
 
 
 

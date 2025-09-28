@@ -1,5 +1,5 @@
 {{ define "main" }}
-<section class="h-entry">
+<div class="h-entry">
     {{ if .Title }}
         <h1 class="p-name">
             <a href="{{ .Permalink }}" class="u-url">
@@ -50,5 +50,5 @@
     <hr>
     <h3>Conversation</h3>
     <script src="https://micro.blog/conversation.js?url={{ .Permalink }}"></script>
-</section>
+</div>
 {{ end }}

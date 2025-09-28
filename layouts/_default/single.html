@@ -1,5 +1,5 @@
 {{ define "main" }}
-<section>
+<div>
   {{ if .Title }}
   <header class="p-name"><h4>{{ .Title }}</h4></header>
   {{ end }}
@@ -15,5 +15,5 @@
   <article id="post-content">
     {{ .Content }}
   </article>
-</section>
+</div>
 {{ end }}

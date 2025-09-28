@@ -1,5 +1,4 @@
 {{ define "main" }}
-    <section>
     <div class="h-feed" role="main">
 		<h1>{{ .Title }}</h1>
         <quiet-search-list match="custom" id="search-list__custom">
@@ -40,22 +39,6 @@
                 <p><small>Try searching by name or using the @indoor or @outdoor tags</small></p>
             </quiet-empty-state>
         </quiet-search-list>
-
-      {{ $list_images := where .Pages ".Params.images" "!=" nil -}}
-      {{ if gt (len $list_images) 0 }}
-        <h1>Photos from posts</h1>
-            <quiet-search-list id="search-list__keywords">
-        {{- $len := (len $list_images) -}}
-        {{ range $index, $value := $list_images }}
-          <a href="{{ .Permalink }}" class="gallery-item">
-            {{ range first 1 .Params.photos }}
-              <img src="{{ . }}" loading="lazy" />
-            {{ end }}
-          </a>
-        {{ end }}
-          </quiet-search-list>
-      </section>
-
       <style>
         #search-list__keywords {
           &::part(items) {

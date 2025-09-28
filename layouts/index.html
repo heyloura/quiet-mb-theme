@@ -1,5 +1,5 @@
 {{ define "main" }}
-<section>
+<div>
     <quiet-typewriter 
         text="Fleeting" 
         speed="100"
@@ -50,7 +50,7 @@
         {{ end }}
     </div>
     <a id="more" href="/archive">View all <quiet-icon name="arrow-right"></quiet-icon></a>
-</section>
+</div>
 <script>
   document.querySelectorAll('quiet-random-content quiet-card').forEach(item => { 
     var img = item.querySelector('img');

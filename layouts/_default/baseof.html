@@ -5,7 +5,11 @@
     </head>
     <body>
         {{ partial "header.html" . }}
+        <section>
+            <main>
         {{ block "main" . }}{{ end }}
+            </main>
+        </section>
         <script>
         window.Prism = window.Prism || {};
         window.Prism.manual = true;
