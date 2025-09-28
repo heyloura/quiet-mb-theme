@@ -34,7 +34,6 @@ nav > a {
   p {
     color: var(--quiet-text-muted);
     margin: 0.5rem 0;
-    font-size: 0.875rem;
     margin-block-end: 0;
   }
   cite {
