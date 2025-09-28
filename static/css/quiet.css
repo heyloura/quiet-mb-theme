@@ -69,8 +69,8 @@ quiet-card:not([slot="back"]) {
   }
 }
 .long-post{margin-top: 1em;}
-quiet-card > img[slot="media"] {
+/* quiet-card > img[slot="media"] {
   aspect-ratio: 1 / 1;
-}
+} */
 section{min-height: 85vh;}
 .p-category{color:var(--quiet-primary-text-on-soft);font-size: 0.875rem;}
