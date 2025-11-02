@@ -3,18 +3,6 @@
 <div>
     <h1>Photos</h1>
     <quiet-search-list id="search-list__keywords">
-    <!-- Controller -->
-    <!-- <quiet-text-field 
-        slot="controller" 
-        label="Search by color"
-        description="e.g. brown, orange, white, gray, black"
-        type="search" 
-        with-clear
-        pill
-    >
-        <quiet-icon slot="start" name="search"></quiet-icon>
-    </quiet-text-field> -->
-
     <!-- Items -->
     {{- $list := where .Site.Pages ".Params.photos" "!=" nil -}}
 	{{- $len := (len $list) -}}
@@ -38,6 +26,7 @@
     img {
       height: 100%;
       object-fit: cover;
+      overflow-clip-margin: unset;
     }
   }
 </style>

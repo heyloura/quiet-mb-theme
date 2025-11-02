@@ -4,10 +4,10 @@
         {{ partial "head.html" . }}
     </head>
     <body>
-        {{ partial "header.html" . }}
         <section>
             <main>
-        {{ block "main" . }}{{ end }}
+                {{ partial "header.html" . }}
+                {{ block "main" . }}{{ end }}
             </main>
         </section>
         <script>
