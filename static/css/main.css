@@ -2,12 +2,12 @@ main {
     display:flex;
 }
 .wide {
-    max-width: 90ch;
+    max-width: 100ch;
 }
 .sidebar {
     max-width: 30%;
     width: 30%;
-    margin-right: 1em;
+    margin-right: 2em;
 }
 .d-none { display: none !important; }
 .d-sm-none {
