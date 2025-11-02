@@ -1,4 +1,4 @@
-<quiet-button appearance="text" data-dialog="open navigation-menu"><quiet-icon name="menu-2"></quiet-icon> Menu</quiet-button>
+<quiet-button class="d-lg-none" appearance="text" data-dialog="open navigation-menu"><quiet-icon name="menu-2"></quiet-icon> Menu</quiet-button>
 <quiet-dialog id="navigation-menu" placement="start">
     <h3 slot="header" style="font-size: 1.25rem; margin-block: 0;">
         Navigation
@@ -31,7 +31,11 @@
         Close
     </quiet-button>
 </quiet-dialog>
-<div class="d-sm-none d-lg-block">
+<div class="d-sm-none d-lg-block sidebar">
+    <quiet-card class="mt">
+        <quiet-avatar image="{{ .Site.Author.avatar }}"></quiet-avatar>
+        <h3 class="name"><a class="p-name u-url" href="/">{{ .Site.Title }}</a></h3>
+    </quiet-card>
     <nav>
         <a href="/">
             Home
@@ -48,10 +52,7 @@
         {{ end }}
         {{ end }}
     </nav>
-
     <quiet-card class="mt">
-        <quiet-avatar image="{{ .Site.Author.avatar }}"></quiet-avatar>
-        <h3 class="name"><a class="p-name u-url" href="/">{{ .Site.Title }}</a></h3>
         {{ partial "footer.html" . }}
     </quiet-card>
 </div>

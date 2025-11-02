@@ -1,6 +1,14 @@
 main {
     display:flex;
 }
+.wide {
+    max-width: 90ch;
+}
+.sidebar {
+    max-width: 30%;
+    width: 30%;
+    margin-right: 1em;
+}
 .d-none { display: none !important; }
 .d-sm-none {
     display: none !important;
